@@ -1,0 +1,6 @@
+# Direct dependencies of the unchanged upstream offline import graph.
+# OpenAI and requests are import-only: SDK construction/network are disabled.
+numpy==2.4.6
+scipy==1.17.1
+openai==1.82.0
+requests==2.32.3

@@ -1,0 +1,307 @@
+{
+  "title": "AgentIdeaBench Replay: selected independent released-data confirmation",
+  "producer": "Reasonance, an exocorp",
+  "version_scope": {
+    "paper": "https://arxiv.org/abs/2609.07611v1",
+    "repository": "https://github.com/HKUST-KnowComp/AgentIdeaBench",
+    "commit": "39a310db1a21c83f71455565d05f485933f648bd",
+    "release_manifest_sha256": "c480d4fe097dd7cca1cb28259aaf051dfa877434261725d682373bdf830e4ec1",
+    "input_verification": "The eight selected original files passed manifest SHA-256, byte-size, row-count and column-list checks. This is not verification of all 51 release files or a full text-leakage audit.",
+    "inputs": [
+      {
+        "path": "release_data/core/subdomain_ideas.csv.gz",
+        "sha256": "234de531d43342592c47651412fff9dc0a78d158acec8171bed4a9ba8f9088a6",
+        "rows": 26098
+      },
+      {
+        "path": "release_data/core/lit8d_scores_3seed.csv.gz",
+        "sha256": "6b7a6123f38dc2eab2132e5562f78bcb1fe8fbead53913caf6a6c6c5a4adb5ae",
+        "rows": 47013
+      },
+      {
+        "path": "release_data/core/subdomain_refs.csv.gz",
+        "sha256": "dded2e8576ae6f3934cb71971091a40cc4d77e708e3900d0cc78a273f57dd948",
+        "rows": 100
+      },
+      {
+        "path": "release_data/appendix/e38_replay_ideas.csv.gz",
+        "sha256": "8031c4575489a57dc7d0af21f0ff5e9e8ba7094dfa68efe7552206473a9650a9",
+        "rows": 831
+      },
+      {
+        "path": "release_data/appendix/e38_replay_refs.csv.gz",
+        "sha256": "e79db704e66e8635d741ec31e92a58daab6010c8744c9d6cdf7313ba37cd6798",
+        "rows": 280
+      },
+      {
+        "path": "release_data/appendix/e38_replay_scores.csv.gz",
+        "sha256": "a5ce60c36edbc07e59790eef9f748620c85bc9bc8db3bbe8cd9e418ecb2c101a",
+        "rows": 2493
+      },
+      {
+        "path": "release_data/derived/static_refs.csv.gz",
+        "sha256": "709f72f3e893b63cb6216a0ad84e3918eeecf846798503076a3798a40177f368",
+        "rows": 4386
+      },
+      {
+        "path": "release_data/derived/active_traces.csv.gz",
+        "sha256": "98de102fdff9579847951ea57399f6296982f0ade91ef8059b35b677ee28851e",
+        "rows": 101455
+      }
+    ]
+  },
+  "methods": {
+    "investigation": "Confirmation was isolated from the exploratory audit implementation and results before original-file reconstruction. No new models or critics were run; no benchmark code was imported or executed.",
+    "implementation_a": "Standard-library Python reconstruction from original released CSV files, with full keyed joins and exact rational score point estimates.",
+    "implementation_b": "Separately implemented SQLite relational control from the original files, checking the decisive identifier/cohort/count results independently of implementation A.",
+    "agreement": "The retained standard-library and SQLite results agree on the selected pooled-search, per-idea equality, missing/empty trace and realized reference-count results below.",
+    "runtime": {
+      "python": "3.11.2",
+      "sqlite": "3.40.1"
+    },
+    "joins": "Full idea_model and exact subdomain identify a cell; track and integer idea_index identify an Active rollout. Truncated item_id strings are not used as join keys. Known paper IDs are deduplicated within each cell or rollout, not across them.",
+    "point_estimate": "For each available idea, drop the highest available critic score per dimension, weight originality:2, impact:1.5, feasibility:1, clarity:0.5, specificity:0.5; divide by 5.5. Average available ideas per cell, then average the exact Static/Active/Replay shared-cell intersection.",
+    "not_independently_rerun": [
+      "E37 score-separation and capability-gate analyses",
+      "E38 bootstrap confidence intervals",
+      "exact SciPy floating-point signed-rank behavior"
+    ]
+  },
+  "definitions": {
+    "known_id": "Nonempty exported Semantic Scholar paper identifier. Null result slots remain unknown, not distinct known papers or useful-information deficits.",
+    "search_set": "Distinct known IDs returned by search_papers.",
+    "all_tool_set": "Distinct known IDs returned by search_papers or get_paper_references. FETCH is the command name; get_paper_references is the released trace label.",
+    "pooled_cell_set": "Union over all released Active rollouts in the same model/subfield cell.",
+    "strict_equality": "Active known-ID set == Replay set, including both directions; only nonempty known-ID rollouts enter the stated per-idea equality denominator.",
+    "exploratory_containment": "Active known-ID set <= Replay set. The existing CLI reports four nonempty contained rollouts; this is not the independently confirmed count of three strictly equal all-tool sets.",
+    "empty_export": "A scored Active idea has trace rows but zero exported result lists (n_results=0). It is excluded from the nonempty-set denominator, not treated as an exposure match.",
+    "missing_trace": "A scored Active idea has no exported trace rows. This does not establish no historical retrieval."
+  },
+  "cohort": {
+    "selection": "Distinct models in the released E38 Replay reference table, verified to have Static/Active scores; per-domain alphabetically sorted subfields at indices 0 and 5 in core/subdomain_refs. Expanded main-table models without Replay are not added.",
+    "models": [
+      "deepseek/deepseek-r1-0528",
+      "deepseek/deepseek-v4-flash",
+      "deepseek/deepseek-v4-pro",
+      "google/gemma-2-27b-it",
+      "google/gemma-3-27b-it",
+      "google/gemma-4-31b-it",
+      "meta-llama/llama-3.1-8b-instruct",
+      "meta-llama/llama-4-maverick",
+      "minimax/minimax-m2.7",
+      "mistralai/mistral-medium-3.1",
+      "mistralai/mistral-small-24b-instruct-2501",
+      "mistralai/mistral-small-2603",
+      "moonshotai/kimi-k2.5",
+      "moonshotai/kimi-k2.6",
+      "qwen/qwen-2.5-72b-instruct",
+      "qwen/qwen-2.5-7b-instruct",
+      "qwen/qwen3-30b-a3b-instruct-2507",
+      "qwen/qwen3-32b",
+      "qwen/qwen3-8b",
+      "qwen/qwen3-coder",
+      "qwen/qwen3.5-27b",
+      "qwen/qwen3.5-397b-a17b",
+      "qwen/qwen3.5-9b",
+      "xiaomi/mimo-v2.5",
+      "xiaomi/mimo-v2.5-pro",
+      "z-ai/glm-4.5-air",
+      "z-ai/glm-4.6",
+      "z-ai/glm-5.1"
+    ],
+    "domain_subfields": [
+      [
+        "Biology",
+        "CRISPR base editing prime editing genome therapeutic"
+      ],
+      [
+        "Biology",
+        "cell-free protein synthesis in vitro transcription translation"
+      ],
+      [
+        "CS",
+        "3D scene understanding neural radiance field"
+      ],
+      [
+        "CS",
+        "continual learning catastrophic forgetting"
+      ],
+      [
+        "Chemistry",
+        "asymmetric organocatalysis enantioselective synthesis"
+      ],
+      [
+        "Chemistry",
+        "electrocatalysis CO2 reduction reaction mechanism"
+      ],
+      [
+        "Medicine",
+        "COVID-19 long PASC post-acute sequelae mechanism"
+      ],
+      [
+        "Medicine",
+        "diabetes insulin resistance metabolic syndrome"
+      ],
+      [
+        "Physics",
+        "2D material graphene van der Waals heterostructure"
+      ],
+      [
+        "Physics",
+        "gravitational wave detector LIGO black hole merger"
+      ]
+    ],
+    "intended_reference_cells": 280,
+    "shared_scored_cells": 279,
+    "replay_generated_and_scored_ideas": 831,
+    "replay_valid_critic_rows": 2493,
+    "replay_scored_ideas_per_shared_cell_distribution": {
+      "1": 2,
+      "2": 2,
+      "3": 275
+    },
+    "excluded_cell": {
+      "idea_model": "google/gemma-2-27b-it",
+      "subdomain": "diabetes insulin resistance metabolic syndrome",
+      "reason": "Replay references exist, but there is no released Replay generation or score. The reason for that missing generation is not established."
+    }
+  },
+  "selected_results": {
+    "intended_cells": {
+      "n": 280,
+      "replay_known_id_count_distribution": {
+        "10": 280
+      },
+      "replay_contained_in_pooled_search_set_cells": 280,
+      "replay_strictly_equals_pooled_search_set_cells": 0,
+      "static_replay_realized_count_equal_cells": 0
+    },
+    "shared_scored_cells": {
+      "n": 279,
+      "replay_known_id_count_distribution": {
+        "10": 279
+      },
+      "replay_contained_in_pooled_search_set_cells": 279,
+      "replay_strictly_equals_pooled_search_set_cells": 0,
+      "pooled_search_known_id_count_median": 76,
+      "pooled_search_known_id_count_range": [
+        16,
+        188
+      ]
+    },
+    "shared_scored_active_ideas": {
+      "n": 837,
+      "nonempty_known_id_traces": 827,
+      "trace_rows_but_zero_exported_result_lists": 8,
+      "no_trace_rows": 2,
+      "nonempty_search_set_strictly_equals_replay": 11,
+      "nonempty_all_tool_set_strictly_equals_replay": 3,
+      "unknown_id_result_occurrences": 265,
+      "ideas_with_unknown_id_result_occurrences": 110,
+      "unknown_id_tool": "get_paper_references"
+    },
+    "selected_static_reference_counts": [
+      {
+        "subdomain": "2D material graphene van der Waals heterostructure",
+        "declared_count": 8,
+        "derived_distinct_id_count": 8
+      },
+      {
+        "subdomain": "3D scene understanding neural radiance field",
+        "declared_count": 9,
+        "derived_distinct_id_count": 9
+      },
+      {
+        "subdomain": "COVID-19 long PASC post-acute sequelae mechanism",
+        "declared_count": 9,
+        "derived_distinct_id_count": 9
+      },
+      {
+        "subdomain": "CRISPR base editing prime editing genome therapeutic",
+        "declared_count": 6,
+        "derived_distinct_id_count": 6
+      },
+      {
+        "subdomain": "asymmetric organocatalysis enantioselective synthesis",
+        "declared_count": 7,
+        "derived_distinct_id_count": 7
+      },
+      {
+        "subdomain": "cell-free protein synthesis in vitro transcription translation",
+        "declared_count": 8,
+        "derived_distinct_id_count": 8
+      },
+      {
+        "subdomain": "continual learning catastrophic forgetting",
+        "declared_count": 6,
+        "derived_distinct_id_count": 6
+      },
+      {
+        "subdomain": "diabetes insulin resistance metabolic syndrome",
+        "declared_count": 5,
+        "derived_distinct_id_count": 5
+      },
+      {
+        "subdomain": "electrocatalysis CO2 reduction reaction mechanism",
+        "declared_count": 9,
+        "derived_distinct_id_count": 9
+      },
+      {
+        "subdomain": "gravitational wave detector LIGO black hole merger",
+        "declared_count": 9,
+        "derived_distinct_id_count": 9
+      }
+    ],
+    "independent_shared_cell_point_estimates": {
+      "means": {
+        "B": 4.723661344629087,
+        "C": 5.057619202780493,
+        "Replay": 4.802107092429673
+      },
+      "contrasts": {
+        "Replay_minus_Static": {
+          "mean": 0.07844574780058651,
+          "mean_exact_fraction": "107/1364"
+        },
+        "Active_minus_Replay": {
+          "mean": 0.25551211035082005,
+          "mean_exact_fraction": "4705/18414"
+        },
+        "Active_minus_Static": {
+          "mean": 0.33395785815140655,
+          "mean_exact_fraction": "12299/36828"
+        }
+      },
+      "descriptive_residual_ratio_not_causal": 0.7651028538905602
+    }
+  },
+  "released_source_mechanisms": {
+    "replay_construction": "One reference pool per full model/subfield, deduplicating SEARCH hits with nonempty abstracts and valid IDs across available Active rollouts, capped at ten, reused for three intended fresh Replay outputs (some outputs are absent in the released rows). Non-search results are not selected as such; the same ID can also appear in SEARCH. The extraction SQL has no explicit ORDER BY.",
+    "active_default_rendering": "Active tool helpers can retain up to 1500 abstract characters in telemetry; default _format_papers_block presents at most 600 characters per hit.",
+    "replay_default_rendering": "Replay uses the Static _format_refs prompt machinery and may present the full stored abstract (potentially up to 1500 characters), with different fields and deterministic shuffle.",
+    "historical_prompt_limit": "These are released-source mechanisms, not a reconstruction of exact historical prompt bytes, fallback choices, delivered text or useful information. Abstracts and the needed historical delivery telemetry are not released."
+  },
+  "interpretation": {
+    "retained": "The positive observed Active-minus-Replay score contrast is reproduced: +0.255512 on 279 shared cells. The disclosed top-ten search-only passive pool is a legitimate restricted intervention.",
+    "not_identified": "That intervention does not establish content held fixed per Active rollout, a process-only causal effect, or the advertised arithmetic residual as a causal 77% process share.",
+    "unresolved": "Whether process contributes, how much it contributes, whether omitted papers are useful, and whether genuinely matched delivery changes the score gap. Unknown IDs or redacted text are not proof of absent useful information.",
+    "scope": "This is not a refutation of the positive score contrast or a general invalidation of AgentIdeaBench. E37 remains the existing exploratory upstream-code replication, not an independently rerun confirmation result."
+  },
+  "primary_source_links": {
+    "e38_pool_and_analysis": "https://github.com/HKUST-KnowComp/AgentIdeaBench/blob/39a310db1a21c83f71455565d05f485933f648bd/experiments/e38_replay_refs.py",
+    "aggregation": "https://github.com/HKUST-KnowComp/AgentIdeaBench/blob/39a310db1a21c83f71455565d05f485933f648bd/experiments/e32_recall_only.py",
+    "active_renderer": "https://github.com/HKUST-KnowComp/AgentIdeaBench/blob/39a310db1a21c83f71455565d05f485933f648bd/generation/active_agent.py",
+    "static_replay_renderer": "https://github.com/HKUST-KnowComp/AgentIdeaBench/blob/39a310db1a21c83f71455565d05f485933f648bd/generation/generate_ideas.py",
+    "trace_export_semantics": "https://github.com/HKUST-KnowComp/AgentIdeaBench/blob/39a310db1a21c83f71455565d05f485933f648bd/scripts/export_release_data.py",
+    "data_card": "https://github.com/HKUST-KnowComp/AgentIdeaBench/blob/39a310db1a21c83f71455565d05f485933f648bd/DATA_CARD.md",
+    "data_license": "https://github.com/HKUST-KnowComp/AgentIdeaBench/blob/39a310db1a21c83f71455565d05f485933f648bd/LICENSE-DATA"
+  },
+  "licensing": {
+    "selected_aggregate_evidence": "Adapted released-data reconstruction by Reasonance; CC BY 4.0.",
+    "input_attribution": "AgentIdeaBench, The AgentIdeaBench Authors, CC BY 4.0.",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "metadata_attribution": "Semantic Scholar Academic Graph, ODC-BY 1.0, per the authors' data card.",
+    "changes": "Selects retained aggregate counts, exact point estimates, definitions and source-mechanism summaries; does not reproduce the full independent analysis code, raw logs or excluded text.",
+    "excluded_content": "No abstracts, full text, model outputs, credentials or private execution paths are included."
+  }
+}

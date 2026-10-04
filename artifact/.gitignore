@@ -1,0 +1,5 @@
+.venv/
+AgentIdeaBench/
+__pycache__/
+results/
+.validation/
