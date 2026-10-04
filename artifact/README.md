@@ -38,14 +38,14 @@ The retained result is a contrast in critic ratings, not an observation of scien
 
 Requires Git and Python **3.11 or later**; tested with Python 3.11.2 and the four direct dependencies pinned in `requirements.txt`. No model credentials are needed.
 
-First acquire **this Reasonance repository** and enter its package directory:
+If you already have an extracted or cloned copy, enter its `artifact` directory (the folder containing `reproduce.py` and `requirements.txt`) and skip the Reasonance clone block below. Otherwise, acquire **this Reasonance repository** and enter its package directory:
 
 ```bash
 git clone https://github.com/reasonanceai/agentideabench-replay-analysis.git
 cd agentideabench-replay-analysis/artifact
 ```
 
-Run the following commands **from `agentideabench-replay-analysis/artifact`**. They acquire the upstream inputs at the required revision, install dependencies, verify the inputs and produce the original-code/exploratory outputs:
+For either route, run the following commands **from that `artifact` directory**; Git is still required for the upstream inputs. They acquire the upstream inputs at the required revision, install dependencies, verify the inputs and produce the original-code/exploratory outputs:
 
 ```bash
 git clone https://github.com/HKUST-KnowComp/AgentIdeaBench.git AgentIdeaBench
